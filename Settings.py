@@ -1,5 +1,6 @@
 HOST = "irc.twitch.tv"
 PORT = 6667
-PASS = "oauth:jhpg67jev64v6v7qzl9u2qz3uol01n"
-IDENT = "nida_bot"
-CHANNEL = "bad_nidalee"
+PASS = "oauth:bu2dutjvs3ltxr5dlx402hbhf56j4y"
+IDENT = "kancikbot"
+CHANNEL = "kancikosman"
+lastfmUsername = "cansungur"
