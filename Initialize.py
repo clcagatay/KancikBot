@@ -7,12 +7,12 @@ def joinRoom(s):
 		readbuffer = readbuffer + s.recv(1024)
 		temp = string.split(readbuffer, "\n")
 		readbuffer = temp.pop()
-		
+
 		for line in temp:
 			print(line)
 			Loading = loadingComplete(line)
-	sendMessage(s, "Successfully joined chat")
-	
+	print "Successfully joined the room."
+
 def loadingComplete(line):
 	if("End of /NAMES list" in line):
 		return False
