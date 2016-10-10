@@ -2,14 +2,17 @@ import urllib, json
 import time, threading, thread
 import datetime
 from Socket import sendMessage
+from Settings import messagesList, lastfm_api_url, twitch_uptime_api_url, CHANNEL
 sarki = ""
 sanatci = ""
 latestPlaying = ""
-messagesList = ["bu bir auto mesajdir","bu baska bir auto mesajdir", "en auto mesaj budur"]
+
 i = 0
+beyler_count = 0
 prev_time = datetime.datetime(2016,10,9,0,0,0,0)
+
 def getRecentTracks():
-    url = "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=cagataycol&api_key=1d0d46c77cdf69e4ebd62f2b3b638dc3&limit=1&format=json"
+    url = lastfm_api_url
     response = urllib.urlopen(url)
     data = json.loads(response.read())
     sanatci = data["recenttracks"]["track"][0]["artist"]["#text"]
@@ -30,7 +33,7 @@ def periodicMessage(s):
         return i
 def upTime():
     """
-    url = "https://api.twitch.tv/kraken/channels/funkefal"
+    url = "https://api.twitch.tv/kraken/channels/kanaladi"
     response = urllib.urlopen(url)
     data = json.loads(response.read())
     went_live = data["updated_at"]
@@ -40,14 +43,18 @@ def upTime():
     #sure_saat = now.hour - time_hms[0]
     print time_hms[0]
     """
-    url = "https://api.rtainc.co/twitch/channels/funkefal/uptime?format=[1]&units=2"
-    #if ile yayinin olup olmadigina bakip ona gore cevap yazma eklenecek
+    url = twitch_uptime_api_url
     response = urllib.urlopen(url)
     uptime_en= str(response.read())
-
-    uptime_tr1 = uptime_en.replace("hours","saat")
-    uptime_tr2 = uptime_tr1.replace("minutes","dakika")
-    return str(uptime_tr2)
+    uptime_api_response_has = "currently"
+    if uptime_api_response_has in uptime_en:
+        uptime_status = "Kanal su an yayinda degil."
+        return str(uptime_status)
+    else:
+        uptime_tr1 = uptime_en.replace("hours","saat")
+        uptime_tr2 = uptime_tr1.replace("minutes","dakika")
+        uptime_status = uptime_tr2 + " suredir yayindayiz."
+        return str(uptime_status)
 def timeCounter():
     global prev_time
     now = datetime.datetime.now()
@@ -58,3 +65,7 @@ def timeCounter():
         return True
     else:
         return False
+def beylerCounter():
+    global beyler_count
+    beyler_count = beyler_count + 1
+    return beyler_count

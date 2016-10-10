@@ -1,4 +1,5 @@
 import string
+import urllib, json
 
 def getUser(line):
 	#separate = line.split(":", 2)
@@ -20,3 +21,13 @@ def getMessage(line):
 		except:
 			message = ""
 	return message
+def isUserMod(user):
+	url = "http://tmi.twitch.tv/group/user/kancikosman/chatters"
+	response = urllib.urlopen(url)
+	data = json.loads(response.read())
+	for i in range(0,len(data["chatters"]["moderators"])):
+	 	username = data["chatters"]["moderators"][i]
+		if user == username:
+			return True
+		else:
+			return False
