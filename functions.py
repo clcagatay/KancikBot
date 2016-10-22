@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import urllib, json
 import time, threading, thread
 import datetime
@@ -53,14 +55,15 @@ def upTime():
     else:
         uptime_tr1 = uptime_en.replace("hours","saat")
         uptime_tr2 = uptime_tr1.replace("minutes","dakika")
-        uptime_status = uptime_tr2 + " suredir yayindayiz."
+        uptime_tr3 = uptime_tr2.replace("seconds","saniye")
+        uptime_status = uptime_tr3 + " suredir yayindayiz."
         return str(uptime_status)
 def timeCounter():
     global prev_time
     now = datetime.datetime.now()
     count_lenght = now.second - prev_time.second
     delta = now - prev_time
-    if delta > datetime.timedelta(seconds=10) :
+    if delta > datetime.timedelta(minutes=5) :
         prev_time = datetime.datetime.now()
         return True
     else:
